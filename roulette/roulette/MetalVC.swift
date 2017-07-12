@@ -12,19 +12,15 @@ import MetalKit
 
 class MetalVC: UIViewController {
 
-    @IBOutlet weak var mtkView: MTKView!
+    var metalView : GMetalView {
+        get {
+            return self.view as! GMetalView
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-        // Select the device to render with.  We choose the default device
-        guard let defaultDevice = MTLCreateSystemDefaultDevice() else {
-            print("Metal is not supported")
-            return
-        }
-        
-        mtkView.device = defaultDevice
-        mtkView.backgroundColor = UIColor.clear
     }
 
     override func didReceiveMemoryWarning() {
@@ -32,7 +28,25 @@ class MetalVC: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        AppDelegate.appProtocols.append(self.metalView)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        let index = AppDelegate.appProtocols.index(where: { (appProtocol) -> Bool in
+            if self.metalView === appProtocol {
+                return true
+            }
+            return false
+        })
+        if index != nil {
+            AppDelegate.appProtocols.remove(at: index!)
+        }
+    }
     /*
     // MARK: - Navigation
 
@@ -45,5 +59,25 @@ class MetalVC: UIViewController {
     
     @IBAction func rotateClicked(_ sender: Any) {
         GZLogFunc()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        AppDelegate.appProtocols.append(self.metalView)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        let index = AppDelegate.appProtocols.index(where: { (appProtocol) -> Bool in
+            if self.metalView === appProtocol {
+                return true
+            }
+            return false
+        })
+        if index != nil {
+            AppDelegate.appProtocols.remove(at: index!)
+        }
     }
 }

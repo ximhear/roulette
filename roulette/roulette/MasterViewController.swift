@@ -10,7 +10,6 @@ import UIKit
 
 class MasterViewController: UITableViewController {
 
-    var detailViewController: DetailViewController? = nil
     var objects = ["Metal로 구현", "Layer로 구현", "View로 구현"]
 
 
@@ -47,6 +46,14 @@ class MasterViewController: UITableViewController {
         let object = objects[indexPath.row]
         cell.textLabel!.text = object
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if indexPath.row == 0 {
+            let vc = storyboard?.instantiateViewController(withIdentifier: "MetalVC")
+            navigationController?.pushViewController(vc!, animated: true)
+        }
     }
 
 }

@@ -7,19 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8C0573611F16143900164AEE /* MetalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0573601F16143900164AEE /* MetalVC.swift */; };
+		8C0573631F1617E600164AEE /* GZLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0573621F1617E100164AEE /* GZLog.swift */; };
 		8C69BCE61F16021800BE64D4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C69BCE51F16021800BE64D4 /* AppDelegate.swift */; };
 		8C69BCE81F16021800BE64D4 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C69BCE71F16021800BE64D4 /* MasterViewController.swift */; };
-		8C69BCEA1F16021800BE64D4 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C69BCE91F16021800BE64D4 /* DetailViewController.swift */; };
 		8C69BCED1F16021800BE64D4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C69BCEB1F16021800BE64D4 /* Main.storyboard */; };
 		8C69BCEF1F16021800BE64D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8C69BCEE1F16021800BE64D4 /* Assets.xcassets */; };
 		8C69BCF21F16021800BE64D4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C69BCF01F16021800BE64D4 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8C0573601F16143900164AEE /* MetalVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalVC.swift; sourceTree = "<group>"; };
+		8C0573621F1617E100164AEE /* GZLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GZLog.swift; path = ../../../metal/GZLog.swift; sourceTree = "<group>"; };
 		8C69BCE21F16021800BE64D4 /* roulette.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = roulette.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C69BCE51F16021800BE64D4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8C69BCE71F16021800BE64D4 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
-		8C69BCE91F16021800BE64D4 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		8C69BCEC1F16021800BE64D4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8C69BCEE1F16021800BE64D4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8C69BCF11F16021800BE64D4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -56,13 +58,14 @@
 		8C69BCE41F16021800BE64D4 /* roulette */ = {
 			isa = PBXGroup;
 			children = (
+				8C0573621F1617E100164AEE /* GZLog.swift */,
 				8C69BCE51F16021800BE64D4 /* AppDelegate.swift */,
 				8C69BCE71F16021800BE64D4 /* MasterViewController.swift */,
-				8C69BCE91F16021800BE64D4 /* DetailViewController.swift */,
 				8C69BCEB1F16021800BE64D4 /* Main.storyboard */,
 				8C69BCEE1F16021800BE64D4 /* Assets.xcassets */,
 				8C69BCF01F16021800BE64D4 /* LaunchScreen.storyboard */,
 				8C69BCF31F16021800BE64D4 /* Info.plist */,
+				8C0573601F16143900164AEE /* MetalVC.swift */,
 			);
 			path = roulette;
 			sourceTree = "<group>";
@@ -138,7 +141,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8C69BCEA1F16021800BE64D4 /* DetailViewController.swift in Sources */,
+				8C0573611F16143900164AEE /* MetalVC.swift in Sources */,
+				8C0573631F1617E600164AEE /* GZLog.swift in Sources */,
 				8C69BCE81F16021800BE64D4 /* MasterViewController.swift in Sources */,
 				8C69BCE61F16021800BE64D4 /* AppDelegate.swift in Sources */,
 			);
@@ -277,6 +281,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = WD3LPJ2STX;
 				INFOPLIST_FILE = roulette/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = g.roulette;
@@ -290,6 +295,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = WD3LPJ2STX;
 				INFOPLIST_FILE = roulette/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = g.roulette;
@@ -318,6 +324,7 @@
 				8C69BCF81F16021800BE64D4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

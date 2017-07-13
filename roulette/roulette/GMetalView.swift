@@ -14,6 +14,7 @@ import MetalKit
 
 struct MBEVertex {
     var position : vector_float4
+    var texture : float2 = float2(0, 0)
 }
 
 struct MBEUniforms {
@@ -40,8 +41,7 @@ class GMetalView: UIView {
     var commandQueue : MTLCommandQueue?
     var displayLink : CADisplayLink?
     var elapsedTime : Float = 0
-    var rotationX : Float = 0
-    var rotationY : Float = 0
+    var rotationZ : Float = 0
     var texture: MTLTexture?
     var samplerState: MTLSamplerState?
     
@@ -60,11 +60,11 @@ class GMetalView: UIView {
         makeTexture()
         //        makeBuffers()
         makePipeline()
-        addCube()
+        addRect()
     }
     
     deinit {
-        SBLog.debug()
+        GZLogFunc()
         displayLink?.invalidate()
     }
     
@@ -89,8 +89,7 @@ class GMetalView: UIView {
     @objc func displayLinkDidFire() {
         let duration : Float = 1.0 / 60.0
         elapsedTime += duration
-        self.rotationX += duration * Float(Double.pi / 2);
-        self.rotationY += duration * Float(Double.pi / 3);
+        self.rotationZ += duration * Float(Double.pi / 2);
         redraw()
     }
     
@@ -106,14 +105,11 @@ class GMetalView: UIView {
         let drawable = self.metalLayer?.nextDrawable()
         let texture = drawable?.texture
         
-        let scaleFactor = sin(2.5 * self.elapsedTime) * 1.75 + 2.0
-        let xAxis = vector_float3(1, 0, 0)
-        let yAxis = vector_float3(0, 1, 0)
-        let xRot = matrix_float4x4_rotation(axis: xAxis, angle: rotationX/2.0)
-        let yRot = matrix_float4x4_rotation(axis: yAxis, angle: rotationY/2.0)
+        let scaleFactor: Float = 1.0 //sin(2.5 * self.elapsedTime) * 1.75 + 2.0
+        let zAxis = vector_float3(0, 0, 1)
+        let zRot = matrix_float4x4_rotation(axis: zAxis, angle: rotationZ)
         let scale = matrix_float4x4_uniform_scale(scale: scaleFactor)
-        let rotation = matrix_multiply(xRot, yRot)
-        let modelMatrix = matrix_multiply(rotation, scale)
+        let modelMatrix = matrix_multiply(zRot, scale)
         
         let cameraTranslation = vector_float3(0, 0, -15 - fabs(sin(2.5 * self.elapsedTime)*5))
         let viewMatrix = matrix_float4x4_translation(t: cameraTranslation)
@@ -147,7 +143,7 @@ class GMetalView: UIView {
         commandEncoder?.setFrontFacing(.counterClockwise)
         commandEncoder?.setCullMode(.back)
         
-        var uniforms = MBEUniforms(modelViewProjectionMatrix: matrix_multiply(matrix_multiply(projectionMatrix, viewMatrix), modelMatrix), modelRotationMatrix: rotation)
+        var uniforms = MBEUniforms(modelViewProjectionMatrix: matrix_multiply(matrix_multiply(projectionMatrix, viewMatrix), modelMatrix), modelRotationMatrix: zRot)
         commandEncoder?.setVertexBytes(&uniforms,
                                        length: MemoryLayout<MBEUniforms>.stride,
                                        index: 1)
@@ -224,17 +220,24 @@ class GMetalView: UIView {
      }
      */
     
-    func addCube() {
+    func addRect() {
+
+        var vertices = [
+            MBEVertex(position: vector_float4(-1, 1, 1, 1), texture:float2(0,0)),
+            MBEVertex(position: vector_float4(-1, -1, 1, 1), texture:float2(0,1)),
+            MBEVertex(position: vector_float4(1, -1, 1, 1), texture:float2(1,1)),
+            MBEVertex(position: vector_float4(1, 1, 1, 1), texture:float2(1,0)),
+        ]
         
-        let cube = Cube(device: device!, width: 5)
-        self.renderables.append(cube)
+        let rect = Rectangle(device: self.device!, texture: self.texture!, vertices: vertices)
+        self.renderables.append(rect)
     }
     
     func makePipeline() {
         let library = device?.makeDefaultLibrary()
         let vertexFunc = library?.makeFunction(name: "vertex_main")
         //        let fragmentFunc = library?.makeFunction(name: "fragment_main")
-        let fragmentFunc = library?.makeFunction(name: "fragment_cube_lookup")
+        let fragmentFunc = library?.makeFunction(name: "textured_fragment")
         
         let pipelineDescriptor = MTLRenderPipelineDescriptor()
         pipelineDescriptor.vertexFunction = vertexFunc
@@ -266,7 +269,7 @@ class GMetalView: UIView {
     }
     
     func makeTexture() {
-        self.texture = getCubeTextureImmediately(device: device!, images: ["bbb", "ccc", "bbb", "ccc", "bbb", "ccc"])
+        self.texture = getTexture(device: self.device!, imageName: "disk.png")
     }
     
     func getCubeTextureImmediately(device: MTLDevice, images:[String]) -> MTLTexture? {
@@ -416,7 +419,7 @@ extension GMetalView {
                 texture = try textureLoader.newTexture(withContentsOf: textureURL,
                                                        options: textureLoaderOptions)
             } catch {
-                SBLog.debug("texture not created")
+                GZLogFunc("texture not created")
             }
         }
         return texture

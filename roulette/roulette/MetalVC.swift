@@ -12,11 +12,7 @@ import MetalKit
 
 class MetalVC: UIViewController {
 
-    var metalView : GMetalView {
-        get {
-            return self.view as! GMetalView
-        }
-    }
+    @IBOutlet weak var metalView : GMetalView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,23 +57,4 @@ class MetalVC: UIViewController {
         GZLogFunc()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        AppDelegate.appProtocols.append(self.metalView)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        let index = AppDelegate.appProtocols.index(where: { (appProtocol) -> Bool in
-            if self.metalView === appProtocol {
-                return true
-            }
-            return false
-        })
-        if index != nil {
-            AppDelegate.appProtocols.remove(at: index!)
-        }
-    }
 }

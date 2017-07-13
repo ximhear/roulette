@@ -44,6 +44,9 @@ fragment half4 textured_fragment(Vertex vertexIn [[ stage_in ]],
                                  sampler sampler2d [[ sampler(0) ]],
                                  texture2d<float> texture [[ texture(0) ]] ) {
     float4 color = texture.sample(sampler2d, vertexIn.texture);
+    if (color.a == 0) {
+        discard_fragment();
+    }
     return half4(color.r, color.g, color.b, 1);
 }
 

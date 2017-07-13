@@ -111,7 +111,7 @@ class GMetalView: UIView {
         let scale = matrix_float4x4_uniform_scale(scale: scaleFactor)
         let modelMatrix = matrix_multiply(zRot, scale)
         
-        let cameraTranslation = vector_float3(0, 0, -15 - fabs(sin(2.5 * self.elapsedTime)*5))
+        let cameraTranslation = vector_float3(0, 0, -2.5)
         let viewMatrix = matrix_float4x4_translation(t: cameraTranslation)
         
         let drawableSize = self.metalLayer!.drawableSize
@@ -163,70 +163,13 @@ class GMetalView: UIView {
         self.metalLayer?.pixelFormat = .bgra8Unorm
     }
     
-    /*
-     func makeBuffers() {
-     
-     var vertices1 = [
-     MBEVertex(position: vector_float4(-1, 1, 1, 1), color: vector_float4(0, 1, 1, 1), texture:float2(0,0)),
-     MBEVertex(position: vector_float4(-1, -1, 1, 1), color: vector_float4(0, 0, 1, 1), texture:float2(0,0)),
-     MBEVertex(position: vector_float4(1, -1, 1, 1), color: vector_float4(1, 0, 1, 1), texture:float2(0,0)),
-     MBEVertex(position: vector_float4(1, 1, 1, 1), color: vector_float4(1, 1, 1, 1), texture:float2(0,0)),
-     MBEVertex(position: vector_float4(-1, 1, -1, 1), color: vector_float4(0, 1, 0, 1), texture:float2(0,0)),
-     MBEVertex(position: vector_float4(-1, -1, -1, 1), color: vector_float4(0, 0, 0, 1), texture:float2(0,0)),
-     MBEVertex(position: vector_float4(1, -1, -1, 1), color: vector_float4(1, 0, 0, 1), texture:float2(0,0)),
-     MBEVertex(position: vector_float4(1, 1, -1, 1), color: vector_float4(1, 1, 0, 1), texture:float2(0,0))
-     ]
-     
-     var vertices : [MBEVertex] = []
-     
-     let indices2 : [(Int, Int, Int, Int)] = [
-     (3, 2, 6, 7),
-     (4, 5, 1, 0),
-     (4, 0, 3, 7),
-     (1, 5, 6, 2),
-     (0, 1, 2, 3),
-     (7, 6, 5, 4)
-     ]
-     
-     let indices1 : [UInt16] = [
-     3, 2, 6, 6, 7, 3,
-     4, 5, 1, 1, 0, 4,
-     4, 0, 3, 3, 7, 4,
-     1, 5, 6, 6, 2, 1,
-     0, 1, 2, 2, 3, 0,
-     7, 6, 5, 5, 4, 7
-     ]
-     
-     var indices : [UInt16] = []
-     for (index, (a, b, c, d)) in indices2.enumerated() {
-     var vertex0 = vertices1[a]
-     var vertex1 = vertices1[b]
-     var vertex2 = vertices1[c]
-     var vertex3 = vertices1[d]
-     
-     vertex0.texture = float2(0,0)
-     vertex1.texture = float2(0,1)
-     vertex2.texture = float2(1,1)
-     vertex3.texture = float2(1,0)
-     vertices.append(contentsOf: [vertex0, vertex1, vertex2, vertex3])
-     let offset = UInt16(index) * 4
-     indices.append(contentsOf: [0, 1, 2, 2, 3, 0].map({ (a) -> UInt16 in
-     return a + offset
-     }))
-     }
-     
-     self.vertexBuffer = device?.makeBuffer(bytes: vertices, length: vertices.count * MemoryLayout<MBEVertex>.stride, options: [])
-     self.indexBuffer = device?.makeBuffer(bytes: indices, length: indices.count * MemoryLayout<UInt16>.size, options: [])
-     }
-     */
-    
     func addRect() {
 
         var vertices = [
-            MBEVertex(position: vector_float4(-1, 1, 1, 1), texture:float2(0,0)),
-            MBEVertex(position: vector_float4(-1, -1, 1, 1), texture:float2(0,1)),
-            MBEVertex(position: vector_float4(1, -1, 1, 1), texture:float2(1,1)),
-            MBEVertex(position: vector_float4(1, 1, 1, 1), texture:float2(1,0)),
+            MBEVertex(position: vector_float4(-1, 1, 0, 1), texture:float2(0,0)),
+            MBEVertex(position: vector_float4(-1, -1, 0, 1), texture:float2(0,1)),
+            MBEVertex(position: vector_float4(1, -1, 0, 1), texture:float2(1,1)),
+            MBEVertex(position: vector_float4(1, 1, 0, 1), texture:float2(1,0)),
         ]
         
         let rect = Rectangle(device: self.device!, texture: self.texture!, vertices: vertices)

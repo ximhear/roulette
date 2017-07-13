@@ -111,16 +111,18 @@ class GMetalView: UIView {
         let scale = matrix_float4x4_uniform_scale(scale: scaleFactor)
         let modelMatrix = matrix_multiply(zRot, scale)
         
-        let cameraTranslation = vector_float3(0, 0, -2.5)
+        let cameraTranslation = vector_float3(0, 0, 0.0)
         let viewMatrix = matrix_float4x4_translation(t: cameraTranslation)
         
         let drawableSize = self.metalLayer!.drawableSize
-        let aspect = Float(drawableSize.width / drawableSize.height)
-        let fov = Float(2 * Double.pi) / 5
-        let near : Float = 1
-        let far : Float = 100
-        let projectionMatrix = matrix_float4x4_perspective(aspect: aspect, fovy: fov, near: near, far: far)
-        
+        let aspect: Float = Float(drawableSize.width / drawableSize.height)
+        var projectionMatrix: matrix_float4x4?
+        if drawableSize.width > drawableSize.height {
+            projectionMatrix = matrix_float4x4_ortho(left: -1 * aspect, right: 1 * aspect, bottom: -1, top: 1, near: 1, far: -1)
+        }
+        else {
+            projectionMatrix = matrix_float4x4_ortho(left: -1, right: 1, bottom: -1 / aspect, top: 1 / aspect, near: 1, far: -1)
+        }
         
         let passDescriptor = MTLRenderPassDescriptor()
         passDescriptor.colorAttachments[0].texture = texture
@@ -143,7 +145,7 @@ class GMetalView: UIView {
         commandEncoder?.setFrontFacing(.counterClockwise)
         commandEncoder?.setCullMode(.back)
         
-        var uniforms = MBEUniforms(modelViewProjectionMatrix: matrix_multiply(matrix_multiply(projectionMatrix, viewMatrix), modelMatrix), modelRotationMatrix: zRot)
+        var uniforms = MBEUniforms(modelViewProjectionMatrix: matrix_multiply(projectionMatrix!, matrix_multiply(viewMatrix, modelMatrix)), modelRotationMatrix: zRot)
         commandEncoder?.setVertexBytes(&uniforms,
                                        length: MemoryLayout<MBEUniforms>.stride,
                                        index: 1)
@@ -321,13 +323,24 @@ class GMetalView: UIView {
         let mat = matrix_float4x4(columns:( P, Q, R, S ))
         return mat
     }
-    
-    override var frame: CGRect {
+
+    func matrix_float4x4_ortho(left: Float, right: Float, bottom: Float, top: Float, near: Float, far: Float) -> matrix_float4x4 {
+
+        let P = vector_float4( 2 / (right - left), 0, 0, 0 )
+        let Q = vector_float4( 0, 2 / (top - bottom), 0, 0 )
+        let R = vector_float4( 0, 0, -2 / (far - near), 0 )
+        let S = vector_float4( -(right + left) / (right - left), -(top + bottom) / (top - bottom), -(far + near) / (far - near), 1 )
+        
+        let mat = matrix_float4x4(columns:( P, Q, R, S ))
+        return mat
+    }
+
+    override var bounds: CGRect {
         get {
-            return super.frame
+            return super.bounds
         }
         set {
-            super.frame = newValue
+            super.bounds = newValue
             var scale = UIScreen.main.scale
             if let w = self.window {
                 scale = w.screen.scale

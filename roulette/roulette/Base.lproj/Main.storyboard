@@ -65,6 +65,57 @@
             </objects>
             <point key="canvasLocation" x="709" y="-630"/>
         </scene>
+        <!--LayerVC-->
+        <scene sceneID="XIg-7w-TVx">
+            <objects>
+                <viewController storyboardIdentifier="LayerVC" id="cqU-Cl-01M" customClass="LayerVC" customModule="roulette" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" id="1ZC-QS-8L9">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wyd-TF-xjb">
+                                <rect key="frame" x="0.0" y="20" width="375" height="601"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hx5-BO-Plo">
+                                <rect key="frame" x="0.0" y="621" width="375" height="46"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j5r-u8-kXS">
+                                        <rect key="frame" x="165" y="8" width="45" height="30"/>
+                                        <state key="normal" title="Rotate"/>
+                                        <connections>
+                                            <action selector="rotateClicked:" destination="cqU-Cl-01M" eventType="touchUpInside" id="RgG-e3-pck"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="j5r-u8-kXS" firstAttribute="centerX" secondItem="hx5-BO-Plo" secondAttribute="centerX" id="AAd-2q-rcM"/>
+                                    <constraint firstAttribute="bottom" secondItem="j5r-u8-kXS" secondAttribute="bottom" constant="8" id="CuT-P8-8Cf"/>
+                                    <constraint firstItem="j5r-u8-kXS" firstAttribute="top" secondItem="hx5-BO-Plo" secondAttribute="top" constant="8" id="gfQ-gr-N8p"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="hx5-BO-Plo" firstAttribute="top" secondItem="Wyd-TF-xjb" secondAttribute="bottom" id="Nkf-ag-q6b"/>
+                            <constraint firstItem="v8r-iE-Yqq" firstAttribute="trailing" secondItem="Wyd-TF-xjb" secondAttribute="trailing" id="RIr-rt-pvS"/>
+                            <constraint firstItem="v8r-iE-Yqq" firstAttribute="trailing" secondItem="hx5-BO-Plo" secondAttribute="trailing" id="XdW-9a-Rb0"/>
+                            <constraint firstItem="v8r-iE-Yqq" firstAttribute="bottom" secondItem="hx5-BO-Plo" secondAttribute="bottom" id="ZL4-a8-Nvl"/>
+                            <constraint firstItem="Wyd-TF-xjb" firstAttribute="top" secondItem="v8r-iE-Yqq" secondAttribute="top" id="Zon-4L-lR7"/>
+                            <constraint firstItem="hx5-BO-Plo" firstAttribute="leading" secondItem="v8r-iE-Yqq" secondAttribute="leading" id="b0i-4g-kv1"/>
+                            <constraint firstItem="Wyd-TF-xjb" firstAttribute="leading" secondItem="v8r-iE-Yqq" secondAttribute="leading" id="wGh-zl-MYw"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="v8r-iE-Yqq"/>
+                    </view>
+                    <connections>
+                        <outlet property="rouletteView" destination="Wyd-TF-xjb" id="dV4-CP-y2x"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uSW-5d-hD8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-39" y="66"/>
+        </scene>
         <!--MetalVC-->
         <scene sceneID="P05-9g-Q96">
             <objects>

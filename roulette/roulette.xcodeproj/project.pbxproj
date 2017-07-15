@@ -11,6 +11,7 @@
 		8C0573681F16197800164AEE /* GZLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0573671F16196A00164AEE /* GZLog.swift */; };
 		8C05736D1F16205900164AEE /* GMetalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C05736C1F16205900164AEE /* GMetalView.swift */; };
 		8C05736F1F1620FF00164AEE /* AppProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C05736E1F1620FF00164AEE /* AppProtocol.swift */; };
+		8C253C7D1F1AA19E00150260 /* LayerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C253C7C1F1AA19E00150260 /* LayerVC.swift */; };
 		8C69BCE61F16021800BE64D4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C69BCE51F16021800BE64D4 /* AppDelegate.swift */; };
 		8C69BCE81F16021800BE64D4 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C69BCE71F16021800BE64D4 /* MasterViewController.swift */; };
 		8C69BCED1F16021800BE64D4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C69BCEB1F16021800BE64D4 /* Main.storyboard */; };
@@ -28,6 +29,7 @@
 		8C0573671F16196A00164AEE /* GZLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GZLog.swift; sourceTree = "<group>"; };
 		8C05736C1F16205900164AEE /* GMetalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GMetalView.swift; sourceTree = "<group>"; };
 		8C05736E1F1620FF00164AEE /* AppProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppProtocol.swift; sourceTree = "<group>"; };
+		8C253C7C1F1AA19E00150260 /* LayerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayerVC.swift; sourceTree = "<group>"; };
 		8C69BCE21F16021800BE64D4 /* roulette.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = roulette.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C69BCE51F16021800BE64D4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8C69BCE71F16021800BE64D4 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 		8C69BCE41F16021800BE64D4 /* roulette */ = {
 			isa = PBXGroup;
 			children = (
+				8C253C7C1F1AA19E00150260 /* LayerVC.swift */,
 				EC5306E81F180FFE00E65F3F /* Rectangle.swift */,
 				EC5306E11F180C8C00E65F3F /* Renderable.swift */,
 				EC5306E21F180C8C00E65F3F /* shaders.metal */,
@@ -174,6 +177,7 @@
 				8C0573681F16197800164AEE /* GZLog.swift in Sources */,
 				8C69BCE81F16021800BE64D4 /* MasterViewController.swift in Sources */,
 				EC5306E91F18100400E65F3F /* Rectangle.swift in Sources */,
+				8C253C7D1F1AA19E00150260 /* LayerVC.swift in Sources */,
 				8C69BCE61F16021800BE64D4 /* AppDelegate.swift in Sources */,
 				EC5306E51F180C9900E65F3F /* Renderable.swift in Sources */,
 				EC5306E61F180C9C00E65F3F /* shaders.metal in Sources */,

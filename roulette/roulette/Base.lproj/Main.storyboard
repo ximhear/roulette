@@ -167,5 +167,70 @@
             </objects>
             <point key="canvasLocation" x="708" y="44.527736131934034"/>
         </scene>
+        <!--ViewVC-->
+        <scene sceneID="NwG-gl-gsn">
+            <objects>
+                <viewController storyboardIdentifier="ViewVC" id="0b0-9k-yCR" customClass="ViewVC" customModule="roulette" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" id="ikZ-VF-lGU">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R9w-yy-MSn" userLabel="ContainerView">
+                                <rect key="frame" x="0.0" y="20" width="375" height="601"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="disk.png" translatesAutoresizingMaskIntoConstraints="NO" id="YFW-hJ-Nm9">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="601"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="YFW-hJ-Nm9" secondAttribute="bottom" id="9eK-3y-eTV"/>
+                                    <constraint firstAttribute="trailing" secondItem="YFW-hJ-Nm9" secondAttribute="trailing" id="AJ5-BQ-BJ6"/>
+                                    <constraint firstItem="YFW-hJ-Nm9" firstAttribute="top" secondItem="R9w-yy-MSn" secondAttribute="top" id="bYX-uh-Gkl"/>
+                                    <constraint firstItem="YFW-hJ-Nm9" firstAttribute="leading" secondItem="R9w-yy-MSn" secondAttribute="leading" id="iMY-4j-VAM"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bxG-5p-C0W" userLabel="BottomContainer">
+                                <rect key="frame" x="0.0" y="621" width="375" height="46"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ygl-QW-tuv">
+                                        <rect key="frame" x="165" y="8" width="46" height="30"/>
+                                        <state key="normal" title="Button"/>
+                                        <connections>
+                                            <action selector="rotateClicked:" destination="0b0-9k-yCR" eventType="touchUpInside" id="oHG-N5-PxL"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.99942404029999998" green="0.98555368190000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="Ygl-QW-tuv" firstAttribute="top" secondItem="bxG-5p-C0W" secondAttribute="top" constant="8" id="qHx-Ik-aaX"/>
+                                    <constraint firstAttribute="bottom" secondItem="Ygl-QW-tuv" secondAttribute="bottom" constant="8" id="tRP-wS-lW2"/>
+                                    <constraint firstItem="Ygl-QW-tuv" firstAttribute="centerX" secondItem="bxG-5p-C0W" secondAttribute="centerX" id="ueq-5J-Tz7"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="VDj-a9-Msd" firstAttribute="bottom" secondItem="bxG-5p-C0W" secondAttribute="bottom" id="4aY-oA-QaN"/>
+                            <constraint firstItem="R9w-yy-MSn" firstAttribute="leading" secondItem="VDj-a9-Msd" secondAttribute="leading" id="Afl-73-eRX"/>
+                            <constraint firstItem="bxG-5p-C0W" firstAttribute="leading" secondItem="VDj-a9-Msd" secondAttribute="leading" id="DMM-1y-Qp6"/>
+                            <constraint firstItem="bxG-5p-C0W" firstAttribute="top" secondItem="R9w-yy-MSn" secondAttribute="bottom" id="HT7-ax-Jgc"/>
+                            <constraint firstItem="VDj-a9-Msd" firstAttribute="trailing" secondItem="bxG-5p-C0W" secondAttribute="trailing" id="IKb-5U-OfC"/>
+                            <constraint firstItem="R9w-yy-MSn" firstAttribute="top" secondItem="VDj-a9-Msd" secondAttribute="top" id="dxe-hd-jEH"/>
+                            <constraint firstItem="VDj-a9-Msd" firstAttribute="trailing" secondItem="R9w-yy-MSn" secondAttribute="trailing" id="lTL-Oc-92E"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="VDj-a9-Msd"/>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="YFW-hJ-Nm9" id="Q9K-My-0MO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="isw-qv-XoF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1464" y="45"/>
+        </scene>
     </scenes>
+    <resources>
+        <image name="disk.png" width="1024" height="1024"/>
+    </resources>
 </document>

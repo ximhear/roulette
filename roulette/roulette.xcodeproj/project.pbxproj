@@ -21,6 +21,7 @@
 		EC5306E61F180C9C00E65F3F /* shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = EC5306E21F180C8C00E65F3F /* shaders.metal */; };
 		EC5306E71F180E9C00E65F3F /* disk.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C0573651F16190900164AEE /* disk.png */; };
 		EC5306E91F18100400E65F3F /* Rectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5306E81F180FFE00E65F3F /* Rectangle.swift */; };
+		EC827A691F1BA07700D416FE /* ViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC827A681F1BA07700D416FE /* ViewVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		EC5306E11F180C8C00E65F3F /* Renderable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Renderable.swift; sourceTree = "<group>"; };
 		EC5306E21F180C8C00E65F3F /* shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = shaders.metal; sourceTree = "<group>"; };
 		EC5306E81F180FFE00E65F3F /* Rectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rectangle.swift; sourceTree = "<group>"; };
+		EC827A681F1BA07700D416FE /* ViewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +97,7 @@
 				8C0573601F16143900164AEE /* MetalVC.swift */,
 				8C05736C1F16205900164AEE /* GMetalView.swift */,
 				8C05736E1F1620FF00164AEE /* AppProtocol.swift */,
+				EC827A681F1BA07700D416FE /* ViewVC.swift */,
 			);
 			path = roulette;
 			sourceTree = "<group>";
@@ -178,6 +181,7 @@
 				8C69BCE81F16021800BE64D4 /* MasterViewController.swift in Sources */,
 				EC5306E91F18100400E65F3F /* Rectangle.swift in Sources */,
 				8C253C7D1F1AA19E00150260 /* LayerVC.swift in Sources */,
+				EC827A691F1BA07700D416FE /* ViewVC.swift in Sources */,
 				8C69BCE61F16021800BE64D4 /* AppDelegate.swift in Sources */,
 				EC5306E51F180C9900E65F3F /* Renderable.swift in Sources */,
 				EC5306E61F180C9C00E65F3F /* shaders.metal in Sources */,

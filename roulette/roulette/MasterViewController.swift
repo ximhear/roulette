@@ -58,6 +58,10 @@ class MasterViewController: UITableViewController {
             let vc = storyboard?.instantiateViewController(withIdentifier: "LayerVC")
             navigationController?.pushViewController(vc!, animated: true)
         }
+        else if indexPath.row == 2 {
+            let vc = storyboard?.instantiateViewController(withIdentifier: "ViewVC")
+            navigationController?.pushViewController(vc!, animated: true)
+        }
     }
 
 }

@@ -56,8 +56,21 @@ class MetalVC: UIViewController {
     @IBAction func rotateClicked(_ sender: Any) {
         GZLogFunc()
         
+//        metalView.startRotation(duration: 10.0, endingRotationZ: Double.pi * 20.5) { (tx) -> Double in
+//            return -pow(1-tx, 2) + 1
+//        }
         metalView.startRotation(duration: 10.0, endingRotationZ: Double.pi * 20.5) { (tx) -> Double in
-            return -pow(1-tx, 2) + 1
+            return pow(tx-1, 3) + 1
         }
+//        metalView.startRotation(duration: 10.0, endingRotationZ: Double.pi * 21.25) { (tx) -> Double in
+//
+//            return self.bezierValue(cx0: 0, cy0: 0, cx1: 0, cy1: 0, cx2: 0, cy2: 1, cx3: 1, cy3: 1, tx: tx)
+//        }
+    }
+    
+    func bezierValue(cx0: Double, cy0: Double, cx1: Double, cy1: Double, cx2: Double, cy2: Double, cx3: Double, cy3: Double, tx: Double) -> Double {
+
+        let t = pow(tx, 1.0/3.0)
+        return cy0 * pow(1.0 - t , 3) + cy1 * pow(1.0 - t, 2) * tx + cy2 * (1.0 - t) * pow(t, 2) + cy3 * pow(t, 3)
     }
 }

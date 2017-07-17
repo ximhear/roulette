@@ -55,6 +55,9 @@ class MetalVC: UIViewController {
     
     @IBAction func rotateClicked(_ sender: Any) {
         GZLogFunc()
+        
+        metalView.startRotation(duration: 10.0, endingRotationZ: Double.pi * 20.5) { (tx) -> Double in
+            return -pow(1-tx, 2) + 1
+        }
     }
-    
 }

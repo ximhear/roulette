@@ -58,12 +58,19 @@ struct MBEUniforms {
         var depthTexture : MTLTexture?
         var commandQueue : MTLCommandQueue?
         var displayLink : CADisplayLink?
-        var elapsedTime : Float = 0
-        var rotationZ : Float = 0
+        var elapsedTime : Double = 0
+        var rotationZ : Double = 0
         var texture: MTLTexture?
         var samplerState: MTLSamplerState?
         
         var renderables : [Renderable] = []
+        
+        var timingFunction: ((_ tx: Double) -> Double)?
+        var beginingTime: TimeInterval = 0
+        var endingTime: TimeInterval = 0
+        var rotating = false
+        var beginingRotationZ: Double = 0
+        var endingRotationZ: Double = 0
         
         override class var layerClass: Swift.AnyClass {
             return CAMetalLayer.self
@@ -105,9 +112,27 @@ struct MBEUniforms {
         }
         
         @objc func displayLinkDidFire() {
-            let duration : Float = 1.0 / 60.0
-            elapsedTime += duration
-            self.rotationZ += duration * Float(Double.pi / 2);
+
+            if self.rotating == true {
+                let fps : Double = 1.0 / 60.0
+                elapsedTime += fps
+                
+                if self.beginingTime + elapsedTime >= self.endingTime {
+                    self.rotationZ = self.endingRotationZ
+                    self.rotating = false
+                    GZLogFunc("Rotation ended")
+                }
+                else {
+                    var result: Double = 0
+                    if let timingFunction = self.timingFunction {
+                        result = beginingRotationZ + timingFunction(elapsedTime/(self.endingTime - self.beginingTime)) * (self.endingRotationZ - beginingRotationZ)
+                    }
+                    else {
+                        result = beginingRotationZ + (self.endingRotationZ - beginingRotationZ) * elapsedTime / (self.endingTime - self.beginingTime)
+                    }
+                    self.rotationZ = result
+                }
+            }
             redraw()
         }
         
@@ -125,7 +150,7 @@ struct MBEUniforms {
             
             let scaleFactor: Float = 1.0 //sin(2.5 * self.elapsedTime) * 1.75 + 2.0
             let zAxis = vector_float3(0, 0, 1)
-            let zRot = matrix_float4x4_rotation(axis: zAxis, angle: rotationZ)
+            let zRot = matrix_float4x4_rotation(axis: zAxis, angle: Float(rotationZ))
             let scale = matrix_float4x4_uniform_scale(scale: scaleFactor)
             let modelMatrix = matrix_multiply(zRot, scale)
             
@@ -413,6 +438,26 @@ struct MBEUniforms {
             if displayLink == nil {
                 displayLink = CADisplayLink(target: self, selector: #selector(displayLinkDidFire))
                 displayLink?.add(to: RunLoop.main, forMode: .commonModes)
+            }
+        }
+    }
+    
+    extension GMetalView {
+        func startRotation(duration: TimeInterval, endingRotationZ: Double, timingFunction: ((_ tx: Double) -> Double)?) {
+            GZLogFunc("Rotation started")
+
+            self.timingFunction = timingFunction
+            if duration > 0 {
+                self.beginingTime = Date().timeIntervalSince1970
+                self.elapsedTime = 0
+                self.endingTime = self.beginingTime + duration
+                self.rotating = true
+                self.rotationZ = self.rotationZ.truncatingRemainder(dividingBy: Double.pi * 2.0)
+                self.beginingRotationZ = self.rotationZ
+                self.endingRotationZ = endingRotationZ
+            }
+            else {
+                self.rotating = false
             }
         }
     }

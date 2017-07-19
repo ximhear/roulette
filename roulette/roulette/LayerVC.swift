@@ -29,13 +29,27 @@ class LayerVC: UIViewController {
         GZLogFunc()
         
         let rotate = CABasicAnimation(keyPath: "transform.rotation.z")
-        rotate.duration = 2
+        let toValue = Double.pi * 21 + .pi / 4.0
+        rotate.duration = 10
         rotate.fromValue = 0
 //        rotate.isRemovedOnCompletion = false
         rotate.fillMode = kCAFillModeForwards
-        rotate.toValue = Double.pi
-        
-        rouletteView.layer.transform = CATransform3DMakeRotation(CGFloat(Double.pi), 0, 0, 1)
+        rotate.toValue = toValue
+        rotate.timingFunction = CAMediaTimingFunction(controlPoints: 0.0, 1.0, 1.0, 1)
+        rotate.delegate = self
+
+        rouletteView.layer.transform = CATransform3DMakeRotation(CGFloat(toValue), 0, 0, 1)
         self.rouletteView.layer.add(rotate, forKey: "")
     }
+}
+
+extension LayerVC: CAAnimationDelegate {
+    func animationDidStart(_ anim: CAAnimation) {
+        GZLogFunc()
+    }
+    
+    func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
+        GZLogFunc(flag)
+    }
+
 }

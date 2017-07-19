@@ -11,11 +11,11 @@ import Metal
 import simd
 #if (arch(i386) || arch(x86_64)) && os(iOS)
 
-    class Rectangle : Renderable {
+    class Rectangle : Renderable, Texturable {
         
-        var texture: MTLTexture?
-        init(device: MTLDevice, texture: MTLTexture, vertices: [MBEVertex]) {}
-        func redraw(commandEncoder: MTLRenderCommandEncoder) -> Void {}
+        init(device: MTLDevice, imageName: String, vertices: [MBEVertex]) {}
+        func redraw() {}
+        func texture() {}
     }
 
 #else

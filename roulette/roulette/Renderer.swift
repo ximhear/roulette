@@ -8,6 +8,13 @@
 
 import MetalKit
 
+#if (arch(i386) || arch(x86_64)) && os(iOS)
+
+    class Renderer {
+    }
+
+#else
+
 class Renderer {
     let device: MTLDevice
     let commandQueue: MTLCommandQueue?
@@ -98,4 +105,6 @@ class Renderer {
         renderables.append(renderable)
     }
 }
+
+#endif
 

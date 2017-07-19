@@ -1,8 +1,11 @@
 # 룰렛 컨트롤 만들기
 룰렛판의 회전 애니메이션과 회전이 멈추는 위치를 조절하는 알고리즘을 구현한다.
+![menu](https://github.com/ximhear/roulette/blob/master/menu.png)
+![metal](https://github.com/ximhear/roulette/blob/master/metal.png)
+![layer](https://github.com/ximhear/roulette/blob/master/layer.png)
+
 ## 정지 알고리즘
 3차 함수 y = (x-1)^3+1을 이용한 정지알고리즘 동영상
-
 [룰렛동영상](https://youtu.be/z5iXK6sw3RI)
 ## Metal로 구현
 ## Layer로 구현

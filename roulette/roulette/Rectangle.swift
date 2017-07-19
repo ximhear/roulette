@@ -25,7 +25,7 @@ import simd
         var device : MTLDevice
         var vertexBuffer: MTLBuffer?
         var indexBuffer: MTLBuffer?
-        var texture: MTLTexture
+        var texture: MTLTexture?
         var vertices: [MBEVertex]
         
         init(device: MTLDevice, texture: MTLTexture, vertices: [MBEVertex]) {
@@ -39,7 +39,7 @@ import simd
             
             commandEncoder.setVertexBuffer(self.vertexBuffer, offset: 0, index: 0)
             commandEncoder.setFragmentTexture(self.texture, index: 0)
-            
+
             commandEncoder.drawIndexedPrimitives(type: .triangle, indexCount: self.indexBuffer!.length / MemoryLayout<UInt16>.size, indexType: .uint16, indexBuffer: self.indexBuffer!, indexBufferOffset: 0)
             
         }

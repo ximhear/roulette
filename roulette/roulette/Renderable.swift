@@ -10,5 +10,6 @@ import Foundation
 import Metal
 
 protocol Renderable {
+    var texture: MTLTexture? {get set}
     func redraw(commandEncoder: MTLRenderCommandEncoder) -> Void
 }

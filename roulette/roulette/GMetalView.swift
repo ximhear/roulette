@@ -27,6 +27,13 @@ struct MBEUniforms {
 #if (arch(i386) || arch(x86_64)) && os(iOS)
     
     class GMetalView: UIView {
+        var device : MTLDevice?
+        func startRotation(duration: TimeInterval, endingRotationZ: Double, timingFunction: ((_ tx: Double) -> Double)?) {
+        }
+
+        func addRenderable(_ renderable: Renderable) {
+        }
+
     }
     
     extension GMetalView : AppProtocol {
@@ -42,17 +49,7 @@ struct MBEUniforms {
     
     class GMetalView: UIView {
         
-        /*
-         // Only override draw() if you perform custom drawing.
-         // An empty implementation adversely affects performance during animation.
-         override func draw(_ rect: CGRect) {
-         // Drawing code
-         }
-         */
-        
         var device : MTLDevice?
-        //    var vertexBuffer: MTLBuffer?
-        //    var indexBuffer: MTLBuffer?
         var pipeline : MTLRenderPipelineState?
         var depthStencilState : MTLDepthStencilState?
         var depthTexture : MTLTexture?
@@ -80,12 +77,9 @@ struct MBEUniforms {
             
             super.init(coder: aDecoder)
             
-            self.makeDevice()
+            makeDevice()
             buildSamplerState()
-            makeTexture()
-            //        makeBuffers()
             makePipeline()
-            addRect()
         }
         
         deinit {
@@ -184,7 +178,6 @@ struct MBEUniforms {
             commandEncoder?.setRenderPipelineState(self.pipeline!)
             commandEncoder?.setDepthStencilState(self.depthStencilState)
             commandEncoder?.setFragmentSamplerState(samplerState, index: 0)
-            commandEncoder?.setFragmentTexture(self.texture, index: 0)
             commandEncoder?.setFrontFacing(.counterClockwise)
             commandEncoder?.setCullMode(.back)
             
@@ -206,19 +199,6 @@ struct MBEUniforms {
             self.device = MTLCreateSystemDefaultDevice()!
             self.metalLayer?.device = self.device
             self.metalLayer?.pixelFormat = .bgra8Unorm
-        }
-        
-        func addRect() {
-            
-            var vertices = [
-                MBEVertex(position: vector_float4(-1, 1, 0, 1), texture:float2(0,0)),
-                MBEVertex(position: vector_float4(-1, -1, 0, 1), texture:float2(0,1)),
-                MBEVertex(position: vector_float4(1, -1, 0, 1), texture:float2(1,1)),
-                MBEVertex(position: vector_float4(1, 1, 0, 1), texture:float2(1,0)),
-                ]
-            
-            let rect = Rectangle(device: self.device!, texture: self.texture!, vertices: vertices)
-            self.renderables.append(rect)
         }
         
         func makePipeline() {
@@ -254,10 +234,6 @@ struct MBEUniforms {
             let desc = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: .depth32Float, width: Int(drawableSize.width), height: Int(drawableSize.height), mipmapped: false)
             desc.usage = .renderTarget
             depthTexture = self.device?.makeTexture(descriptor: desc)
-        }
-        
-        func makeTexture() {
-            self.texture = getTexture(device: self.device!, imageName: "disk.png")
         }
         
         func getCubeTextureImmediately(device: MTLDevice, images:[String]) -> MTLTexture? {
@@ -299,6 +275,48 @@ struct MBEUniforms {
             return rawData
         }
         
+        override var bounds: CGRect {
+            get {
+                return super.bounds
+            }
+            set {
+                super.bounds = newValue
+                var scale = UIScreen.main.scale
+                if let w = self.window {
+                    scale = w.screen.scale
+                }
+                var drawableSize = self.bounds.size
+                drawableSize.width *= scale
+                drawableSize.height *= scale
+                
+                self.metalLayer?.drawableSize = drawableSize
+                
+                self.makeDepthTexture()
+            }
+        }
+        
+        func addRenderable(_ renderable: Renderable) {
+            self.renderables.append(renderable)
+        }
+    }
+    
+    extension GMetalView : AppProtocol {
+        
+        func applicationWillResignActive() {
+            displayLink?.invalidate()
+            displayLink = nil
+        }
+        
+        func applicationDidBecomeActive() {
+            
+            if displayLink == nil {
+                displayLink = CADisplayLink(target: self, selector: #selector(displayLinkDidFire))
+                displayLink?.add(to: RunLoop.main, forMode: .commonModes)
+            }
+        }
+    }
+    
+    extension GMetalView {
         func matrix_float4x4_translation(t:vector_float3) -> matrix_float4x4 {
             let X = vector_float4( 1, 0, 0, 0 )
             let Y = vector_float4(0, 1, 0, 0 )
@@ -376,69 +394,6 @@ struct MBEUniforms {
             
             let mat = matrix_float4x4(columns:( P, Q, R, S ))
             return mat
-        }
-        
-        override var bounds: CGRect {
-            get {
-                return super.bounds
-            }
-            set {
-                super.bounds = newValue
-                var scale = UIScreen.main.scale
-                if let w = self.window {
-                    scale = w.screen.scale
-                }
-                var drawableSize = self.bounds.size
-                drawableSize.width *= scale
-                drawableSize.height *= scale
-                
-                self.metalLayer?.drawableSize = drawableSize
-                
-                self.makeDepthTexture()
-            }
-        }
-    }
-    
-    extension GMetalView {
-        
-        func getTexture(device: MTLDevice, imageName: String) -> MTLTexture? {
-            let textureLoader = MTKTextureLoader(device: device)
-            var texture: MTLTexture? = nil
-            let textureLoaderOptions: [MTKTextureLoader.Option : Any]
-            if #available(iOS 10.0, *) {
-                let origin = MTKTextureLoader.Origin.topLeft
-                textureLoaderOptions = [MTKTextureLoader.Option.origin: origin,
-                                        MTKTextureLoader.Option.generateMipmaps:true]
-            } else {
-                textureLoaderOptions = [:]
-            }
-            
-            if let textureURL = Bundle.main.url(forResource: imageName, withExtension: nil) {
-                do {
-                    texture = try textureLoader.newTexture(withContentsOf: textureURL,
-                                                           options: textureLoaderOptions)
-                } catch {
-                    GZLogFunc("texture not created")
-                }
-            }
-            return texture
-        }
-        
-    }
-    
-    extension GMetalView : AppProtocol {
-        
-        func applicationWillResignActive() {
-            displayLink?.invalidate()
-            displayLink = nil
-        }
-        
-        func applicationDidBecomeActive() {
-            
-            if displayLink == nil {
-                displayLink = CADisplayLink(target: self, selector: #selector(displayLinkDidFire))
-                displayLink?.add(to: RunLoop.main, forMode: .commonModes)
-            }
         }
     }
     

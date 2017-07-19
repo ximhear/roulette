@@ -13,9 +13,9 @@ import simd
 
     class Rectangle : Renderable {
         
-        func redraw(commandEncoder: MTLRenderCommandEncoder) -> Void {
-            
-        }
+        var texture: MTLTexture?
+        init(device: MTLDevice, texture: MTLTexture, vertices: [MBEVertex]) {}
+        func redraw(commandEncoder: MTLRenderCommandEncoder) -> Void {}
     }
 
 #else

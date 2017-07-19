@@ -50,17 +50,9 @@ struct MBEUniforms {
     class GMetalView: UIView {
         
         var device : MTLDevice?
-        var pipeline : MTLRenderPipelineState?
-        var depthStencilState : MTLDepthStencilState?
-        var depthTexture : MTLTexture?
-        var commandQueue : MTLCommandQueue?
         var displayLink : CADisplayLink?
         var elapsedTime : Double = 0
         var rotationZ : Double = 0
-        var texture: MTLTexture?
-        var samplerState: MTLSamplerState?
-        
-        var renderables : [Renderable] = []
         
         var timingFunction: ((_ tx: Double) -> Double)?
         var beginingTime: TimeInterval = 0
@@ -68,6 +60,8 @@ struct MBEUniforms {
         var rotating = false
         var beginingRotationZ: Double = 0
         var endingRotationZ: Double = 0
+        
+        var renderer: Renderer?
         
         override class var layerClass: Swift.AnyClass {
             return CAMetalLayer.self
@@ -78,8 +72,7 @@ struct MBEUniforms {
             super.init(coder: aDecoder)
             
             makeDevice()
-            buildSamplerState()
-            makePipeline()
+            renderer = Renderer(device: device!)
         }
         
         deinit {
@@ -130,17 +123,7 @@ struct MBEUniforms {
             redraw()
         }
         
-        private func buildSamplerState() {
-            let descriptor = MTLSamplerDescriptor()
-            descriptor.minFilter = .linear
-            descriptor.magFilter = .linear
-            samplerState = self.device!.makeSamplerState(descriptor: descriptor)
-        }
-        
         func redraw() {
-            
-            let drawable = self.metalLayer?.nextDrawable()
-            let texture = drawable?.texture
             
             let scaleFactor: Float = 1.0 //sin(2.5 * self.elapsedTime) * 1.75 + 2.0
             let zAxis = vector_float3(0, 0, 1)
@@ -161,79 +144,14 @@ struct MBEUniforms {
                 projectionMatrix = matrix_float4x4_ortho(left: -1, right: 1, bottom: -1 / aspect, top: 1 / aspect, near: 1, far: -1)
             }
             
-            let passDescriptor = MTLRenderPassDescriptor()
-            passDescriptor.colorAttachments[0].texture = texture
-            passDescriptor.colorAttachments[0].loadAction = .clear
-            passDescriptor.colorAttachments[0].storeAction = .store
-            passDescriptor.colorAttachments[0].clearColor = MTLClearColor(red: 1, green: 1, blue: 0, alpha: 1)
-            
-            makeDepthTexture()
-            passDescriptor.depthAttachment.texture = self.depthTexture
-            passDescriptor.depthAttachment.clearDepth = 1.0
-            passDescriptor.depthAttachment.loadAction = .clear
-            passDescriptor.depthAttachment.storeAction = .dontCare
-            
-            let commandBuffer = commandQueue?.makeCommandBuffer()
-            let commandEncoder = commandBuffer?.makeRenderCommandEncoder(descriptor: passDescriptor)
-            commandEncoder?.setRenderPipelineState(self.pipeline!)
-            commandEncoder?.setDepthStencilState(self.depthStencilState)
-            commandEncoder?.setFragmentSamplerState(samplerState, index: 0)
-            commandEncoder?.setFrontFacing(.counterClockwise)
-            commandEncoder?.setCullMode(.back)
-            
             var uniforms = MBEUniforms(modelViewProjectionMatrix: matrix_multiply(projectionMatrix!, matrix_multiply(viewMatrix, modelMatrix)), modelRotationMatrix: zRot)
-            commandEncoder?.setVertexBytes(&uniforms,
-                                           length: MemoryLayout<MBEUniforms>.stride,
-                                           index: 1)
-            
-            for renderable in self.renderables {
-                
-                renderable.redraw(commandEncoder: commandEncoder!)
-            }
-            commandEncoder?.endEncoding()
-            commandBuffer?.present(drawable!)
-            commandBuffer?.commit()
+            renderer?.redraw(metalLayer: metalLayer!, uniforms: &uniforms)
         }
         
         func makeDevice() {
             self.device = MTLCreateSystemDefaultDevice()!
             self.metalLayer?.device = self.device
             self.metalLayer?.pixelFormat = .bgra8Unorm
-        }
-        
-        func makePipeline() {
-            let library = device?.makeDefaultLibrary()
-            let vertexFunc = library?.makeFunction(name: "vertex_main")
-            //        let fragmentFunc = library?.makeFunction(name: "fragment_main")
-            let fragmentFunc = library?.makeFunction(name: "textured_fragment")
-            
-            let pipelineDescriptor = MTLRenderPipelineDescriptor()
-            pipelineDescriptor.vertexFunction = vertexFunc
-            pipelineDescriptor.fragmentFunction = fragmentFunc
-            pipelineDescriptor.colorAttachments[0].pixelFormat = .bgra8Unorm
-            pipelineDescriptor.depthAttachmentPixelFormat = .depth32Float
-            
-            let depthStencilDescriptor = MTLDepthStencilDescriptor()
-            depthStencilDescriptor.depthCompareFunction = .less
-            depthStencilDescriptor.isDepthWriteEnabled = true
-            self.depthStencilState = self.device?.makeDepthStencilState(descriptor: depthStencilDescriptor)
-            
-            self.pipeline = try? self.device!.makeRenderPipelineState(descriptor: pipelineDescriptor)
-            
-            self.commandQueue = self.device?.makeCommandQueue()
-        }
-        
-        func makeDepthTexture() {
-            let drawableSize = self.metalLayer!.drawableSize
-            
-            if let texture = self.depthTexture {
-                if Int(drawableSize.width) == texture.width && Int(drawableSize.height) == texture.height {
-                    return
-                }
-            }
-            let desc = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: .depth32Float, width: Int(drawableSize.width), height: Int(drawableSize.height), mipmapped: false)
-            desc.usage = .renderTarget
-            depthTexture = self.device?.makeTexture(descriptor: desc)
         }
         
         func getCubeTextureImmediately(device: MTLDevice, images:[String]) -> MTLTexture? {
@@ -290,13 +208,11 @@ struct MBEUniforms {
                 drawableSize.height *= scale
                 
                 self.metalLayer?.drawableSize = drawableSize
-                
-                self.makeDepthTexture()
             }
         }
         
         func addRenderable(_ renderable: Renderable) {
-            self.renderables.append(renderable)
+            self.renderer?.addRenderable(renderable)
         }
     }
     

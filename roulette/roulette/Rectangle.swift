@@ -20,7 +20,7 @@ import simd
 
 #else
 
-    class Rectangle : Renderable {
+    class Rectangle : Renderable, Texturable {
         
         var device : MTLDevice
         var vertexBuffer: MTLBuffer?
@@ -28,15 +28,37 @@ import simd
         var texture: MTLTexture?
         var vertices: [MBEVertex]
         
-        init(device: MTLDevice, texture: MTLTexture, vertices: [MBEVertex]) {
+        // Renderable
+        var pipelineState: MTLRenderPipelineState!
+        var fragmentFunctionName: String = "textured_fragment"
+        var vertexFunctionName: String = "vertex_main"
+        var vertexDescriptor: MTLVertexDescriptor {
+            let vertexDescriptor = MTLVertexDescriptor()
+            
+            vertexDescriptor.attributes[0].format = .float4
+            vertexDescriptor.attributes[0].offset = 0
+            vertexDescriptor.attributes[0].bufferIndex = 0
+            
+            vertexDescriptor.attributes[1].format = .float2
+            vertexDescriptor.attributes[1].offset = MemoryLayout<float4>.stride
+            vertexDescriptor.attributes[1].bufferIndex = 0
+            
+            vertexDescriptor.layouts[0].stride = MemoryLayout<MBEVertex>.stride
+            
+            return vertexDescriptor
+        }
+
+        init(device: MTLDevice, imageName: String, vertices: [MBEVertex]) {
             self.device = device
-            self.texture = texture
             self.vertices = vertices
+            self.texture = setTexture(device: device, imageName: imageName)
+            pipelineState = buildPipelineState(device: device)
             makeBuffers()
         }
         
         func redraw(commandEncoder: MTLRenderCommandEncoder) -> Void {
             
+            commandEncoder.setRenderPipelineState(pipelineState)
             commandEncoder.setVertexBuffer(self.vertexBuffer, offset: 0, index: 0)
             commandEncoder.setFragmentTexture(self.texture, index: 0)
 

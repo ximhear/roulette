@@ -1,5 +1,6 @@
 # 룰렛 컨트롤 만들기
 룰렛판의 회전 애니메이션과 회전이 멈추는 위치를 조절하는 알고리즘을 구현한다.
+
 ![menu](https://github.com/ximhear/roulette/blob/master/menu.png)
 ![metal](https://github.com/ximhear/roulette/blob/master/metal.png)
 ![layer](https://github.com/ximhear/roulette/blob/master/layer.png)

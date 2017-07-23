@@ -24,6 +24,7 @@
 		EC586F241F1FD1190039E733 /* MatrixMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC586F231F1FD1150039E733 /* MatrixMath.swift */; };
 		EC586F261F1FD2510039E733 /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC586F251F1FD2510039E733 /* Renderer.swift */; };
 		EC586F281F1FD7CA0039E733 /* Texturable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC586F271F1FD7CA0039E733 /* Texturable.swift */; };
+		EC6929F91F24F07F005C5B1D /* RouletteLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6929F81F24F07F005C5B1D /* RouletteLayerView.swift */; };
 		EC827A691F1BA07700D416FE /* ViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC827A681F1BA07700D416FE /* ViewVC.swift */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +48,7 @@
 		EC586F231F1FD1150039E733 /* MatrixMath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixMath.swift; sourceTree = "<group>"; };
 		EC586F251F1FD2510039E733 /* Renderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
 		EC586F271F1FD7CA0039E733 /* Texturable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Texturable.swift; sourceTree = "<group>"; };
+		EC6929F81F24F07F005C5B1D /* RouletteLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouletteLayerView.swift; sourceTree = "<group>"; };
 		EC827A681F1BA07700D416FE /* ViewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -88,11 +90,9 @@
 		8C69BCE41F16021800BE64D4 /* roulette */ = {
 			isa = PBXGroup;
 			children = (
-				EC586F231F1FD1150039E733 /* MatrixMath.swift */,
-				8C253C7C1F1AA19E00150260 /* LayerVC.swift */,
-				EC5306E81F180FFE00E65F3F /* Rectangle.swift */,
-				EC5306E11F180C8C00E65F3F /* Renderable.swift */,
-				EC5306E21F180C8C00E65F3F /* shaders.metal */,
+				EC6929F71F24F026005C5B1D /* View기반 */,
+				EC6929F61F24EFF9005C5B1D /* Metal기반 */,
+				EC6929F51F24EFE9005C5B1D /* Layer기반 */,
 				8C0573671F16196A00164AEE /* GZLog.swift */,
 				8C0573641F16190900164AEE /* images */,
 				8C69BCE51F16021800BE64D4 /* AppDelegate.swift */,
@@ -101,14 +101,44 @@
 				8C69BCEE1F16021800BE64D4 /* Assets.xcassets */,
 				8C69BCF01F16021800BE64D4 /* LaunchScreen.storyboard */,
 				8C69BCF31F16021800BE64D4 /* Info.plist */,
-				8C0573601F16143900164AEE /* MetalVC.swift */,
-				8C05736C1F16205900164AEE /* GMetalView.swift */,
 				8C05736E1F1620FF00164AEE /* AppProtocol.swift */,
 				EC827A681F1BA07700D416FE /* ViewVC.swift */,
-				EC586F251F1FD2510039E733 /* Renderer.swift */,
-				EC586F271F1FD7CA0039E733 /* Texturable.swift */,
 			);
 			path = roulette;
+			sourceTree = "<group>";
+		};
+		EC6929F51F24EFE9005C5B1D /* Layer기반 */ = {
+			isa = PBXGroup;
+			children = (
+				8C253C7C1F1AA19E00150260 /* LayerVC.swift */,
+				EC6929F81F24F07F005C5B1D /* RouletteLayerView.swift */,
+			);
+			name = "Layer기반";
+			path = "Layer기반";
+			sourceTree = "<group>";
+		};
+		EC6929F61F24EFF9005C5B1D /* Metal기반 */ = {
+			isa = PBXGroup;
+			children = (
+				8C05736C1F16205900164AEE /* GMetalView.swift */,
+				EC586F251F1FD2510039E733 /* Renderer.swift */,
+				EC586F271F1FD7CA0039E733 /* Texturable.swift */,
+				8C0573601F16143900164AEE /* MetalVC.swift */,
+				EC586F231F1FD1150039E733 /* MatrixMath.swift */,
+				EC5306E81F180FFE00E65F3F /* Rectangle.swift */,
+				EC5306E11F180C8C00E65F3F /* Renderable.swift */,
+				EC5306E21F180C8C00E65F3F /* shaders.metal */,
+			);
+			name = "Metal기반";
+			path = "Metal기반";
+			sourceTree = "<group>";
+		};
+		EC6929F71F24F026005C5B1D /* View기반 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "View기반";
+			path = "View기반";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -189,6 +219,7 @@
 				8C0573611F16143900164AEE /* MetalVC.swift in Sources */,
 				8C0573681F16197800164AEE /* GZLog.swift in Sources */,
 				8C69BCE81F16021800BE64D4 /* MasterViewController.swift in Sources */,
+				EC6929F91F24F07F005C5B1D /* RouletteLayerView.swift in Sources */,
 				EC586F261F1FD2510039E733 /* Renderer.swift in Sources */,
 				EC5306E91F18100400E65F3F /* Rectangle.swift in Sources */,
 				EC586F241F1FD1190039E733 /* MatrixMath.swift in Sources */,

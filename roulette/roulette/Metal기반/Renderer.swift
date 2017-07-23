@@ -77,6 +77,10 @@ class Renderer {
         commandEncoder?.setVertexBytes(&uniforms,
                                        length: MemoryLayout<MBEUniforms>.stride,
                                        index: 1)
+        
+        commandEncoder?.setFragmentBytes(&uniforms,
+                                       length: MemoryLayout<MBEUniforms>.stride,
+                                       index: 0)
 
         for renderable in self.renderables {
             

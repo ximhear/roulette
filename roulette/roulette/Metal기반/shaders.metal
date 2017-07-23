@@ -7,6 +7,8 @@
 //
 
 #include <metal_stdlib>
+#include <simd/simd.h>
+
 using namespace metal;
 
 struct Vertex {
@@ -22,11 +24,14 @@ struct VertexOut {
 struct Uniforms {
     float4x4 modelViewProjectionMatrix;
     float4x4 modelRotationMatrix;
+    float speed;
 };
 
 struct InstanceUniforms {
     float4 position;
 };
+
+constant float PI = 3.14159;
 
 vertex VertexOut vertex_main(device Vertex* vertices[[buffer(0)]],
                           constant Uniforms &uniforms [[buffer(1)]],
@@ -40,10 +45,21 @@ vertex VertexOut vertex_main(device Vertex* vertices[[buffer(0)]],
     return outVertex;
 }
 
-fragment half4 textured_fragment(Vertex vertexIn [[ stage_in ]],
+fragment half4 textured_fragment(VertexOut vertexIn [[ stage_in ]],
                                  sampler sampler2d [[ sampler(0) ]],
-                                 texture2d<float> texture [[ texture(0) ]] ) {
-    float4 color = texture.sample(sampler2d, vertexIn.texture);
+                                 texture2d<float> texture [[ texture(0) ]],
+                                 constant Uniforms &uniforms [[buffer(0)]]) {
+    
+    float x = 2 * (vertexIn.texture.x - 0.5);
+    float y = 2 * (vertexIn.texture.y - 0.5);
+    float dist = sqrt(x*x + y*y);
+    if (dist > 1) {
+        discard_fragment();
+    }
+    float angle = PI * uniforms.speed * dist / 4.0;
+    float2x2 rotation = float2x2(cos(angle), sin(angle), -sin(angle), cos(angle));
+    float2 textureCoord = rotation * float2(vertexIn.texture.x - 0.5, vertexIn.texture.y - 0.5) + float2(0.5, 0.5);
+    float4 color = texture.sample(sampler2d, textureCoord);
     if (color.a == 0) {
         discard_fragment();
     }

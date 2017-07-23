@@ -41,6 +41,7 @@ class RouletteLayerView: UIView {
     
     private func prepareViews() {
         self.layer.contentsGravity = "resizeAspect"
+        self.backgroundColor = UIColor.clear
     }
     
     func startRotation(angle: Double) {

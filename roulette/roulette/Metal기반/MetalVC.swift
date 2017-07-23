@@ -77,9 +77,13 @@ class MetalVC: UIViewController {
 //        metalView.startRotation(duration: 10.0, endingRotationZ: Double.pi * 20.5) { (tx) -> Double in
 //            return -pow(1-tx, 2) + 1
 //        }
-        metalView.startRotation(duration: 10.0, endingRotationZ: Double.pi * 20.5) { (tx) -> Double in
-            return pow(tx-1, 3) + 1
-        }
+        metalView.startRotation(duration: 10.0, endingRotationZ: Double.pi * 20.5,
+                                timingFunction:  { (tx) -> Double in
+                                    return pow(tx-1, 3) + 1
+        },
+                                speedFunction: { (tx) -> Double in
+                                    return 3 * pow(tx-1, 2)
+        })
 //        metalView.startRotation(duration: 10.0, endingRotationZ: Double.pi * 21.25) { (tx) -> Double in
 //
 //            return self.bezierValue(cx0: 0, cy0: 0, cx1: 0, cy1: 0, cx2: 0, cy2: 1, cx3: 1, cy3: 1, tx: tx)

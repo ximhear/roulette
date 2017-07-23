@@ -74,8 +74,8 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wyd-TF-xjb" customClass="RouletteLayerView" customModule="roulette" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="20" width="375" height="601"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <rect key="frame" x="8" y="28" width="359" height="585"/>
+                                <color key="backgroundColor" red="1" green="0.57810515169999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                             <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hx5-BO-Plo">
                                 <rect key="frame" x="0.0" y="621" width="375" height="46"/>
@@ -98,13 +98,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="hx5-BO-Plo" firstAttribute="top" secondItem="Wyd-TF-xjb" secondAttribute="bottom" id="Nkf-ag-q6b"/>
-                            <constraint firstItem="v8r-iE-Yqq" firstAttribute="trailing" secondItem="Wyd-TF-xjb" secondAttribute="trailing" id="RIr-rt-pvS"/>
+                            <constraint firstItem="hx5-BO-Plo" firstAttribute="top" secondItem="Wyd-TF-xjb" secondAttribute="bottom" constant="8" id="Nkf-ag-q6b"/>
+                            <constraint firstItem="v8r-iE-Yqq" firstAttribute="trailing" secondItem="Wyd-TF-xjb" secondAttribute="trailing" constant="8" id="RIr-rt-pvS"/>
                             <constraint firstItem="v8r-iE-Yqq" firstAttribute="trailing" secondItem="hx5-BO-Plo" secondAttribute="trailing" id="XdW-9a-Rb0"/>
                             <constraint firstItem="v8r-iE-Yqq" firstAttribute="bottom" secondItem="hx5-BO-Plo" secondAttribute="bottom" id="ZL4-a8-Nvl"/>
-                            <constraint firstItem="Wyd-TF-xjb" firstAttribute="top" secondItem="v8r-iE-Yqq" secondAttribute="top" id="Zon-4L-lR7"/>
+                            <constraint firstItem="Wyd-TF-xjb" firstAttribute="top" secondItem="v8r-iE-Yqq" secondAttribute="top" constant="8" id="Zon-4L-lR7"/>
                             <constraint firstItem="hx5-BO-Plo" firstAttribute="leading" secondItem="v8r-iE-Yqq" secondAttribute="leading" id="b0i-4g-kv1"/>
-                            <constraint firstItem="Wyd-TF-xjb" firstAttribute="leading" secondItem="v8r-iE-Yqq" secondAttribute="leading" id="wGh-zl-MYw"/>
+                            <constraint firstItem="Wyd-TF-xjb" firstAttribute="leading" secondItem="v8r-iE-Yqq" secondAttribute="leading" constant="8" id="wGh-zl-MYw"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="v8r-iE-Yqq"/>
                     </view>

@@ -20,6 +20,7 @@ struct MBEVertex {
 struct MBEUniforms {
     var modelViewProjectionMatrix : matrix_float4x4
     var modelRotationMatrix : matrix_float4x4
+    var speed: Float
 }
 
 
@@ -53,8 +54,10 @@ struct MBEUniforms {
         var displayLink : CADisplayLink?
         var elapsedTime : Double = 0
         var rotationZ : Double = 0
+        var speed: Double = 0
         
         var timingFunction: ((_ tx: Double) -> Double)?
+        var speedFunction: ((_ tx: Double) -> Double)?
         var beginingTime: TimeInterval = 0
         var endingTime: TimeInterval = 0
         var rotating = false
@@ -118,12 +121,21 @@ struct MBEUniforms {
                         result = beginingRotationZ + (self.endingRotationZ - beginingRotationZ) * elapsedTime / (self.endingTime - self.beginingTime)
                     }
                     self.rotationZ = result
+                    
+                    var speed: Double = 0
+                    if let speedFunction = self.speedFunction {
+                        speed = speedFunction(elapsedTime/(self.endingTime - self.beginingTime))
+                    }
+                    else {
+                        speed = 0
+                    }
+                    self.speed = speed
                 }
             }
-            redraw()
+            redraw(speed: self.speed)
         }
         
-        func redraw() {
+        func redraw(speed: Double) {
             
             let scaleFactor: Float = 1.0 //sin(2.5 * self.elapsedTime) * 1.75 + 2.0
             let zAxis = vector_float3(0, 0, 1)
@@ -144,7 +156,7 @@ struct MBEUniforms {
                 projectionMatrix = matrix_float4x4_ortho(left: -1, right: 1, bottom: -1 / aspect, top: 1 / aspect, near: 1, far: -1)
             }
             
-            var uniforms = MBEUniforms(modelViewProjectionMatrix: matrix_multiply(projectionMatrix!, matrix_multiply(viewMatrix, modelMatrix)), modelRotationMatrix: zRot)
+            var uniforms = MBEUniforms(modelViewProjectionMatrix: matrix_multiply(projectionMatrix!, matrix_multiply(viewMatrix, modelMatrix)), modelRotationMatrix: zRot, speed: Float(self.speed))
             renderer?.redraw(metalLayer: metalLayer!, uniforms: &uniforms)
         }
         
@@ -314,10 +326,11 @@ struct MBEUniforms {
     }
     
     extension GMetalView {
-        func startRotation(duration: TimeInterval, endingRotationZ: Double, timingFunction: ((_ tx: Double) -> Double)?) {
+        func startRotation(duration: TimeInterval, endingRotationZ: Double, timingFunction: ((_ tx: Double) -> Double)?, speedFunction: ((_ tx: Double) -> Double)?) {
             GZLogFunc("Rotation started")
 
             self.timingFunction = timingFunction
+            self.speedFunction = speedFunction
             if duration > 0 {
                 self.beginingTime = Date().timeIntervalSince1970
                 self.elapsedTime = 0

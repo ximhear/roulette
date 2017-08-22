@@ -17,6 +17,7 @@
 		8C69BCED1F16021800BE64D4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C69BCEB1F16021800BE64D4 /* Main.storyboard */; };
 		8C69BCEF1F16021800BE64D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8C69BCEE1F16021800BE64D4 /* Assets.xcassets */; };
 		8C69BCF21F16021800BE64D4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C69BCF01F16021800BE64D4 /* LaunchScreen.storyboard */; };
+		8CCB0C851F4BF5E9000A391A /* GTextureLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCB0C841F4BF5E9000A391A /* GTextureLoader.swift */; };
 		EC5306E51F180C9900E65F3F /* Renderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5306E11F180C8C00E65F3F /* Renderable.swift */; };
 		EC5306E61F180C9C00E65F3F /* shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = EC5306E21F180C8C00E65F3F /* shaders.metal */; };
 		EC5306E71F180E9C00E65F3F /* disk.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C0573651F16190900164AEE /* disk.png */; };
@@ -42,6 +43,7 @@
 		8C69BCEE1F16021800BE64D4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8C69BCF11F16021800BE64D4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8C69BCF31F16021800BE64D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8CCB0C841F4BF5E9000A391A /* GTextureLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GTextureLoader.swift; sourceTree = "<group>"; };
 		EC5306E11F180C8C00E65F3F /* Renderable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Renderable.swift; sourceTree = "<group>"; };
 		EC5306E21F180C8C00E65F3F /* shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = shaders.metal; sourceTree = "<group>"; };
 		EC5306E81F180FFE00E65F3F /* Rectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rectangle.swift; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 				EC5306E81F180FFE00E65F3F /* Rectangle.swift */,
 				EC5306E11F180C8C00E65F3F /* Renderable.swift */,
 				EC5306E21F180C8C00E65F3F /* shaders.metal */,
+				8CCB0C841F4BF5E9000A391A /* GTextureLoader.swift */,
 			);
 			name = "Metal기반";
 			path = "Metal기반";
@@ -227,6 +230,7 @@
 				EC827A691F1BA07700D416FE /* ViewVC.swift in Sources */,
 				8C69BCE61F16021800BE64D4 /* AppDelegate.swift in Sources */,
 				EC5306E51F180C9900E65F3F /* Renderable.swift in Sources */,
+				8CCB0C851F4BF5E9000A391A /* GTextureLoader.swift in Sources */,
 				EC5306E61F180C9C00E65F3F /* shaders.metal in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -366,7 +370,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = WD3LPJ2STX;
 				INFOPLIST_FILE = roulette/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = g.roulette;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -381,7 +385,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = WD3LPJ2STX;
 				INFOPLIST_FILE = roulette/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = g.roulette;
 				PRODUCT_NAME = "$(TARGET_NAME)";

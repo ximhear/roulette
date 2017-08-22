@@ -157,7 +157,9 @@ struct MBEUniforms {
             }
             
             var uniforms = MBEUniforms(modelViewProjectionMatrix: matrix_multiply(projectionMatrix!, matrix_multiply(viewMatrix, modelMatrix)), modelRotationMatrix: zRot, speed: Float(self.speed))
-            renderer?.redraw(metalLayer: metalLayer!, uniforms: &uniforms)
+            let uniformBuffer = device?.makeBuffer(bytes: &uniforms, length: MemoryLayout<MBEUniforms>.stride, options: [])
+
+            renderer?.redraw(metalLayer: metalLayer!, uniforms: &uniforms, uniformBuffer: uniformBuffer!)
         }
         
         func makeDevice() {

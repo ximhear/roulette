@@ -48,10 +48,10 @@ import simd
             return vertexDescriptor
         }
 
-        init(device: MTLDevice, imageName: String, vertices: [MBEVertex]) {
+        init(device: MTLDevice, imageName: String, vertices: [MBEVertex], queue: MTLCommandQueue) {
             self.device = device
             self.vertices = vertices
-            self.texture = setTexture(device: device, imageName: imageName)
+            self.texture = setTexture(device: device, imageName: imageName, queue: queue)
             pipelineState = buildPipelineState(device: device)
             makeBuffers()
         }

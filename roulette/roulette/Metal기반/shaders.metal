@@ -57,7 +57,7 @@ fragment half4 textured_fragment(VertexOut vertexIn [[ stage_in ]],
         discard_fragment();
     }
     float angle = PI * uniforms.speed * dist / 4.0;
-    float2x2 rotation = float2x2(cos(angle), sin(angle), -sin(angle), cos(angle));
+    float2x2 rotation = float2x2(float2(cos(angle), sin(angle)), float2(-sin(angle), cos(angle)));
     float2 textureCoord = rotation * float2(vertexIn.texture.x - 0.5, vertexIn.texture.y - 0.5) + float2(0.5, 0.5);
     float4 color = texture.sample(sampler2d, textureCoord);
     if (color.a == 0) {

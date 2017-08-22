@@ -13,12 +13,10 @@ import MetalKit
 class MetalVC: UIViewController {
 
     @IBOutlet weak var metalView : GMetalView!
-    var texture: MTLTexture?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        makeTexture()
         addRect()
     }
     
@@ -31,7 +29,7 @@ class MetalVC: UIViewController {
             MBEVertex(position: vector_float4(1, 1, 0, 1), texture:float2(1,0)),
             ]
         
-        let rect = Rectangle(device: metalView.device!, imageName: "disk.png", vertices: vertices)
+        let rect = Rectangle(device: metalView.device!, imageName: "disk.png", vertices: vertices, queue: metalView.renderer!.commandQueue!)
         
         metalView.addRenderable(rect)
     }
@@ -96,30 +94,4 @@ class MetalVC: UIViewController {
         return cy0 * pow(1.0 - t , 3) + cy1 * pow(1.0 - t, 2) * tx + cy2 * (1.0 - t) * pow(t, 2) + cy3 * pow(t, 3)
     }
 
-    func makeTexture() {
-        self.texture = getTexture(device: metalView.device!, imageName: "disk.png")
-    }
-    
-    func getTexture(device: MTLDevice, imageName: String) -> MTLTexture? {
-        let textureLoader = MTKTextureLoader(device: device)
-        var texture: MTLTexture? = nil
-        let textureLoaderOptions: [MTKTextureLoader.Option : Any]
-        if #available(iOS 10.0, *) {
-            let origin = MTKTextureLoader.Origin.topLeft
-            textureLoaderOptions = [MTKTextureLoader.Option.origin: origin,
-                                    MTKTextureLoader.Option.generateMipmaps:true]
-        } else {
-            textureLoaderOptions = [:]
-        }
-        
-        if let textureURL = Bundle.main.url(forResource: imageName, withExtension: nil) {
-            do {
-                texture = try textureLoader.newTexture(withContentsOf: textureURL,
-                                                       options: textureLoaderOptions)
-            } catch {
-                GZLogFunc("texture not created")
-            }
-        }
-        return texture
-    }
 }

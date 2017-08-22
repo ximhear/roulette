@@ -22,27 +22,34 @@ import MetalKit
     
     
     extension Texturable {
-        func setTexture(device: MTLDevice, imageName: String) -> MTLTexture? {
-            let textureLoader = MTKTextureLoader(device: device)
-            var texture: MTLTexture? = nil
-            let textureLoaderOptions: [MTKTextureLoader.Option : Any]
-            if #available(iOS 10.0, *) {
-                let origin = MTKTextureLoader.Origin.topLeft
-                textureLoaderOptions = [MTKTextureLoader.Option.origin : origin,
-                                        MTKTextureLoader.Option.generateMipmaps: true]
-            } else {
-                textureLoaderOptions = [:]
-            }
-            
-            if let textureURL = Bundle.main.url(forResource: imageName, withExtension: nil) {
-                do {
-                    texture = try textureLoader.newTexture(withContentsOf: textureURL,
-                                                           options: textureLoaderOptions)
-                } catch {
-                    print("texture not created")
+        func setTexture(device: MTLDevice, imageName: String, queue: MTLCommandQueue) -> MTLTexture? {
+
+            if #available(iOS 9.0, *) {
+                
+                let textureLoader = MTKTextureLoader(device: device)
+                var texture: MTLTexture? = nil
+                let textureLoaderOptions: [MTKTextureLoader.Option : Any]
+                if #available(iOS 10.0, *) {
+                    let origin = MTKTextureLoader.Origin.topLeft
+                    textureLoaderOptions = [MTKTextureLoader.Option.origin : origin,
+                                            MTKTextureLoader.Option.generateMipmaps: true]
+                } else {
+                    textureLoaderOptions = [:]
                 }
+                
+                if let textureURL = Bundle.main.url(forResource: imageName, withExtension: nil) {
+                    do {
+                        texture = try textureLoader.newTexture(URL: textureURL, options: textureLoaderOptions)
+                    } catch {
+                        print("texture not created")
+                    }
+                }
+                return texture
             }
-            return texture
+            else {
+                let texture = GTextureLoader.shared.texture2D(imageNamed: imageName, mipmapped: true, queue: queue)
+                return texture
+            }
         }
     }
     

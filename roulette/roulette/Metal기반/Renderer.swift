@@ -50,7 +50,7 @@ class Renderer {
         self.depthStencilState = device.makeDepthStencilState(descriptor: depthStencilDescriptor)
     }
     
-    func redraw(metalLayer: CAMetalLayer, uniforms: inout MBEUniforms) {
+    func redraw(metalLayer: CAMetalLayer, uniforms: inout MBEUniforms, uniformBuffer: MTLBuffer) {
         
         let drawable = metalLayer.nextDrawable()
         let texture = drawable?.texture
@@ -73,14 +73,20 @@ class Renderer {
         commandEncoder?.setFragmentSamplerState(samplerState, index: 0)
         commandEncoder?.setFrontFacing(.counterClockwise)
         commandEncoder?.setCullMode(.back)
-        
-        commandEncoder?.setVertexBytes(&uniforms,
-                                       length: MemoryLayout<MBEUniforms>.stride,
-                                       index: 1)
-        
-        commandEncoder?.setFragmentBytes(&uniforms,
-                                       length: MemoryLayout<MBEUniforms>.stride,
-                                       index: 0)
+
+        if #available(iOS 8.3, *) {
+            commandEncoder?.setVertexBytes(&uniforms,
+                                           length: MemoryLayout<MBEUniforms>.stride,
+                                           index: 1)
+            
+            commandEncoder?.setFragmentBytes(&uniforms,
+                                             length: MemoryLayout<MBEUniforms>.stride,
+                                             index: 0)
+        }
+        else {
+            commandEncoder?.setVertexBuffer(uniformBuffer, offset: 0, index: 1)
+            commandEncoder?.setFragmentBuffer(uniformBuffer, offset: 0, index: 0)
+        }
 
         for renderable in self.renderables {
             
@@ -100,7 +106,11 @@ class Renderer {
             }
         }
         let desc = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: .depth32Float, width: Int(drawableSize.width), height: Int(drawableSize.height), mipmapped: false)
-        desc.usage = .renderTarget
+        if #available(iOS 9.0, *) {
+            desc.usage = .renderTarget
+        } else {
+            // Fallback on earlier versions
+        }
         depthTexture = device.makeTexture(descriptor: desc)
     }
     

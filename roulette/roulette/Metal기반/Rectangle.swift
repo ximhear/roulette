@@ -13,7 +13,7 @@ import simd
 
     class Rectangle : Renderable, Texturable {
         
-        init(device: MTLDevice, imageName: String, vertices: [MBEVertex], queue: MTLCommandQueue) {}
+        init(device: MTLDevice?, imageName: String, vertices: [MBEVertex], queue: MTLCommandQueue?) {}
         func redraw() {}
         func texture() {}
     }
@@ -48,11 +48,11 @@ import simd
             return vertexDescriptor
         }
 
-        init(device: MTLDevice, imageName: String, vertices: [MBEVertex], queue: MTLCommandQueue) {
-            self.device = device
+        init(device: MTLDevice?, imageName: String, vertices: [MBEVertex], queue: MTLCommandQueue?) {
+            self.device = device!
             self.vertices = vertices
-            self.texture = setTexture(device: device, imageName: imageName, queue: queue)
-            pipelineState = buildPipelineState(device: device)
+            self.texture = setTexture(device: device!, imageName: imageName, queue: queue!)
+            pipelineState = buildPipelineState(device: device!)
             makeBuffers()
         }
         

@@ -29,12 +29,15 @@ struct MBEUniforms {
     
     class GMetalView: UIView {
         var device : MTLDevice?
-        func startRotation(duration: TimeInterval, endingRotationZ: Double, timingFunction: ((_ tx: Double) -> Double)?) {
+        func startRotation(duration: TimeInterval, endingRotationZ: Double, timingFunction: ((_ tx: Double) -> Double)?, speedFunction: ((_ tx: Double) -> Double)?) {
         }
 
         func addRenderable(_ renderable: Renderable) {
         }
-
+        
+        func getCommandQueue() -> MTLCommandQueue? {
+            return nil
+        }
     }
     
     extension GMetalView : AppProtocol {
@@ -65,6 +68,8 @@ struct MBEUniforms {
         var endingRotationZ: Double = 0
         
         var renderer: Renderer?
+        var uniformBuffer: MTLBuffer?
+        var uniforms = MBEUniforms(modelViewProjectionMatrix: matrix_float4x4(), modelRotationMatrix: matrix_float4x4(), speed: 0)
         
         override class var layerClass: Swift.AnyClass {
             return CAMetalLayer.self
@@ -75,6 +80,7 @@ struct MBEUniforms {
             super.init(coder: aDecoder)
             
             makeDevice()
+            makeUniformBuffer()
             renderer = Renderer(device: device!)
         }
         
@@ -156,9 +162,11 @@ struct MBEUniforms {
                 projectionMatrix = matrix_float4x4_ortho(left: -1, right: 1, bottom: -1 / aspect, top: 1 / aspect, near: 1, far: -1)
             }
             
-            var uniforms = MBEUniforms(modelViewProjectionMatrix: matrix_multiply(projectionMatrix!, matrix_multiply(viewMatrix, modelMatrix)), modelRotationMatrix: zRot, speed: Float(self.speed))
-            let uniformBuffer = device?.makeBuffer(bytes: &uniforms, length: MemoryLayout<MBEUniforms>.stride, options: [])
+            uniforms.modelViewProjectionMatrix = matrix_multiply(projectionMatrix!, matrix_multiply(viewMatrix, modelMatrix))
+            uniforms.modelRotationMatrix = zRot
+            uniforms.speed = Float(self.speed)
 
+            memcpy(uniformBuffer?.contents(), &uniforms, MemoryLayout<MBEUniforms>.size)
             renderer?.redraw(metalLayer: metalLayer!, uniforms: &uniforms, uniformBuffer: uniformBuffer!)
         }
         
@@ -166,6 +174,10 @@ struct MBEUniforms {
             self.device = MTLCreateSystemDefaultDevice()!
             self.metalLayer?.device = self.device
             self.metalLayer?.pixelFormat = .bgra8Unorm
+        }
+        
+        func makeUniformBuffer() {
+            uniformBuffer = device?.makeBuffer(length: MemoryLayout<MBEUniforms>.stride, options: [])
         }
         
         func getCubeTextureImmediately(device: MTLDevice, images:[String]) -> MTLTexture? {
@@ -227,6 +239,10 @@ struct MBEUniforms {
         
         func addRenderable(_ renderable: Renderable) {
             self.renderer?.addRenderable(renderable)
+        }
+        
+        func getCommandQueue() -> MTLCommandQueue? {
+            return renderer?.commandQueue
         }
     }
     

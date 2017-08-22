@@ -13,7 +13,7 @@ import simd
 
     class Rectangle : Renderable, Texturable {
         
-        init(device: MTLDevice, imageName: String, vertices: [MBEVertex]) {}
+        init(device: MTLDevice, imageName: String, vertices: [MBEVertex], queue: MTLCommandQueue) {}
         func redraw() {}
         func texture() {}
     }

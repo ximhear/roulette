@@ -29,7 +29,7 @@ class MetalVC: UIViewController {
             MBEVertex(position: vector_float4(1, 1, 0, 1), texture:float2(1,0)),
             ]
         
-        let rect = Rectangle(device: metalView.device!, imageName: "disk.png", vertices: vertices, queue: metalView.renderer!.commandQueue!)
+        let rect = Rectangle(device: metalView.device!, imageName: "disk.png", vertices: vertices, queue: metalView.getCommandQueue()!)
         
         metalView.addRenderable(rect)
     }

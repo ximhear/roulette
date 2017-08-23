@@ -1,5 +1,6 @@
 # 룰렛 컨트롤 만들기
 iOS 8.0 이상 지원.
+
 룰렛판의 회전 애니메이션과 회전이 멈추는 위치를 조절하는 알고리즘을 구현한다.
 
 ![menu](https://github.com/ximhear/roulette/blob/master/menu.png)
@@ -11,6 +12,8 @@ iOS 8.0 이상 지원.
 ## Metal로 구현
 
 [메탈로 구현한 룰렛동영상](https://youtu.be/WjX4MEY5M3g)
+
+메탈로 구현한 코드는 시뮬레이터에서는 돌지 않습니다.
 
 ## Layer로 구현
 
